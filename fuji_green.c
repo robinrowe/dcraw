@@ -5,12 +5,15 @@
    $Date: 2006/03/01 01:46:47 $
  */
 
+#include <unistd.h>
+#include <arpa/inet.h>
 #include <ctype.h>
 #include <math.h>
 #include <setjmp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 
 #define ushort UshORt
 typedef unsigned char uchar;
@@ -70,7 +73,7 @@ void CLASS read_shorts (ushort *pixel, int count)
 {
   fread (pixel, 2, count, ifp);
   if ((order == 0x4949) == (ntohs(0x1234) == 0x1234))
-    swab (pixel, pixel, count*2);
+    swab ((char*) pixel,(char*) pixel, count*2);
 }
 
 void CLASS fuji_load_raw()
@@ -220,7 +223,7 @@ void CLASS write_ppm (FILE *ofp)
 void CLASS write_raw16 (FILE *ofp)
 {
   if (ntohs(0x1234) != 0x1234)
-    swab (image, image, width*height*2);
+    swab ((char*) image,(char*) image, width*height*2);
   fwrite (image, width*height, 2, ofp);
 }
 

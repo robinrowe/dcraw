@@ -1,0 +1,13 @@
+sources.cmake
+ReadMe.md
+Changes.md
+clean_crw.c
+dcraw.c
+decompress.c
+elphel_dng.c
+fuji_green.c
+fujiturn.c
+parse.c
+read_ndf.c
+scan.c
+sony_clear.c

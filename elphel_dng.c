@@ -11,6 +11,8 @@
    $Date: 2006/02/18 22:50:53 $
  */
 
+
+#include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,14 +32,15 @@ int main (int argc, char **argv)
 {
   static const short CFARepeatPatternDim[] = { 2,2 };
   static const float cam_xyz[] =
-  { 2.005,-0.771,-0.269, -0.752,1.688,0.064, -0.149,0.283,0.745 };
-  static const float neutral[] = { 0.807133, 1.0, 0.913289 };
+  { 2.005f, -0.771f, -0.269f, -0.752f, 1.688f, 0.064f, -0.149f, 0.283f, 0.745f };
+  static const float neutral[] = { 0.807133f, 1.0f, 0.913289f };
   long sub_offset=0, white=0x3fff;
   struct jpeg_error_mgr jerr;
   struct jpeg_decompress_struct cinfo;
   JSAMPARRAY buf;
   float gam;
-  int status=1, i, r, c, row, col;
+  int status=1, i, r, c;
+  unsigned row, col;
   unsigned short curve[256], *out;
   struct stat st;
   struct tm tm;
@@ -50,12 +53,12 @@ int main (int argc, char **argv)
 	"Example: %s 100 cgi.jpg output.dng\n", argv[0],argv[0]);
     return 1;
   }
-  if ((gam = atof(argv[1])) <= 0) {
+  if ((gam = (float) atof(argv[1])) <= 0) {
     fprintf (stderr, "Gamma must be positive!\n");
     return 1;
   }
   for (i=0; i < 256; i++)
-    curve[i] = 0x3fff * pow (i/255.0, 100/gam) + 0.5;
+    curve[i] = (unsigned short)(0x3fff * pow (i/255.0, 100/gam) + 0.5);
 
   if (!(ifp = fopen (argv[2], "rb"))) {
     perror (argv[2]);

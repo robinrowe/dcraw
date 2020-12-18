@@ -1066,8 +1066,8 @@ void parse_uuid (int level)
 
 void parse_redcine (off_t base, int level)
 {
-  unsigned i, len, tag, ulen, utag;
-  char c, ctag[4], buf[0x8000];
+  unsigned i, len, tag, ulen;
+  char ctag[4], buf[0x8000];
 
   do {
     fseeko (ifp, base, SEEK_SET);

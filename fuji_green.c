@@ -204,14 +204,14 @@ void CLASS write_ppm (FILE *ofp)
   size = width * height;
   for (i = 0; i < size; i++)
     histogram[image[i] >> 4]++;
-  i = size * 0.01;			/* 99th percentile white point */
+  i = (int)(size * 0.01);			/* 99th percentile white point */
   for (val=0x2000, total=0; --val; )
     if ((total += histogram[val]) > i) break;
   white = (val << 4) / bright;
 
   for (i=0; i < 0x10000; i++) {
     r = i / white;
-    val = (r <= 0.018 ? r*4.5 : pow(r,0.45)*1.099-0.099) * 256;
+    val =(int)((r <= 0.018 ? r*4.5 : pow(r,0.45)*1.099-0.099) * 256);
     if (val > 255) val = 255;
     lut[i] = val;
   }
@@ -293,7 +293,7 @@ int CLASS main (int argc, char **argv)
       case 'i':  identify_only     = 1;  break;
       case 'c':  write_to_stdout   = 1;  break;
       case 's':  use_secondary     = 1;  break;
-      case 'b':  bright = atof(argv[arg++]);  break;
+      case 'b':  bright = (float) atof(argv[arg++]);  break;
       case '2':  write_fun = write_ppm;    break;
       case '4':  write_fun = write_ppm16;  break;
       case '3':  write_fun = write_psd;  write_ext = ".psd";  break;

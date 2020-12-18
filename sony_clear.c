@@ -3,6 +3,7 @@
    by Dave Coffin  1/4/2004
  */
 
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
